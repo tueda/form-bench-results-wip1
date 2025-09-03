@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1756938972510,
+  "lastUpdate": 1756939055972,
   "repoUrl": "https://github.com/tueda/form-bench-results-wip1",
   "entries": {
     "FORM Benchmark": [
@@ -255,6 +255,70 @@ window.BENCHMARK_DATA = {
             "value": 2.098,
             "unit": "s",
             "range": "+- 0.025",
+            "extra": "OS: Ubuntu 24.04.3 LTS\nCPU: AMD EPYC 7763 64-Core Processor, 2 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Takahiro Ueda\n",
+            "email": "tueda@st.seikei.ac.jp\n",
+            "username": "Takahiro Ueda\n"
+          },
+          "committer": {
+            "name": "Takahiro Ueda\n",
+            "email": "tueda@st.seikei.ac.jp\n",
+            "username": "Takahiro Ueda\n"
+          },
+          "id": "d5f9d3331e8a2a96e44412cf8835cdeece743c61\n",
+          "message": "build: disable some gcc compier warnings\n\nAdd --enable-extra-warning option to the configure script. By default,\nit is disabled to suppress some gcc warnings:\n\n* -Wno-misleading-indentation. This is because, for the short term, it\n  seems unfeasible to clearly rewrite FORM source code (by hand) unless\n  we introduce some automatization with formatters, linters or static\n  analyzers.\n\n* -Wno-stringop-overflow. It seems to give many false positives (though\n  there may be some true positives).\n\nStop using obsolete macros when autoconf>=2.70 is used.\n\nImprove the handling of i486 (Pentium) processors on old 32-bit systems\n(-march=i486).\n\nax_check_compile_flag.m4 (GPL-3.0-or-later) is taken from:\n  autoconf-archive/autoconf-archive@7f56aaa (v2014.10.15)\n\nResolve #416\n\n",
+          "timestamp": "2022-11-12T22:52:39+09:00\n",
+          "url": "https://github.com/form-dev/form/commit/d5f9d3331e8a2a96e44412cf8835cdeece743c61\n"
+        },
+        "date": 1756939055673,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "trace (form/Linux-ARM64)",
+            "value": 2.995,
+            "unit": "s",
+            "range": "+- 0.008",
+            "extra": "OS: Ubuntu 24.04.2 LTS\nCPU: Neoverse-N2, 4 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (tform -w2/Linux-ARM64)",
+            "value": 1.679,
+            "unit": "s",
+            "range": "+- 0.011",
+            "extra": "OS: Ubuntu 24.04.2 LTS\nCPU: Neoverse-N2, 4 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (tform -w4/Linux-ARM64)",
+            "value": 0.928,
+            "unit": "s",
+            "range": "+- 0.031",
+            "extra": "OS: Ubuntu 24.04.2 LTS\nCPU: Neoverse-N2, 4 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (form/Linux-X64)",
+            "value": 4.025,
+            "unit": "s",
+            "range": "+- 0.053",
+            "extra": "OS: Ubuntu 24.04.3 LTS\nCPU: AMD EPYC 7763 64-Core Processor, 2 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (tform -w2/Linux-X64)",
+            "value": 2.542,
+            "unit": "s",
+            "range": "+- 0.041",
+            "extra": "OS: Ubuntu 24.04.3 LTS\nCPU: AMD EPYC 7763 64-Core Processor, 2 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (tform -w4/Linux-X64)",
+            "value": 2.336,
+            "unit": "s",
+            "range": "+- 0.019",
             "extra": "OS: Ubuntu 24.04.3 LTS\nCPU: AMD EPYC 7763 64-Core Processor, 2 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
           }
         ]
