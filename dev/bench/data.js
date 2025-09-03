@@ -1,8 +1,72 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1756939568336,
+  "lastUpdate": 1756939574465,
   "repoUrl": "https://github.com/tueda/form-bench-results-wip1",
   "entries": {
     "FORM Benchmark": [
+      {
+        "commit": {
+          "author": {
+            "name": "Takahiro Ueda\n",
+            "email": "tueda@nikhef.nl\n",
+            "username": "Takahiro Ueda\n"
+          },
+          "committer": {
+            "name": "Takahiro Ueda\n",
+            "email": "tueda@nikhef.nl\n",
+            "username": "Takahiro Ueda\n"
+          },
+          "id": "40a4b98235b95834f1e8a2a140085e0c1336ebc5\n",
+          "message": "[doc] Remove the \"problematic\" sentence of f66737\n\n",
+          "timestamp": "2017-07-06T17:29:48+02:00\n",
+          "url": "https://github.com/form-dev/form/commit/40a4b98235b95834f1e8a2a140085e0c1336ebc5\n"
+        },
+        "date": 1756939574135,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "trace (form/Linux-ARM64)",
+            "value": 3.003,
+            "unit": "s",
+            "range": "+- 0.012",
+            "extra": "OS: Ubuntu 24.04.2 LTS\nCPU: Neoverse-N2, 4 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (tform -w2/Linux-ARM64)",
+            "value": 1.613,
+            "unit": "s",
+            "range": "+- 0.003",
+            "extra": "OS: Ubuntu 24.04.2 LTS\nCPU: Neoverse-N2, 4 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (tform -w4/Linux-ARM64)",
+            "value": 0.876,
+            "unit": "s",
+            "range": "+- 0.004",
+            "extra": "OS: Ubuntu 24.04.2 LTS\nCPU: Neoverse-N2, 4 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (form/Linux-X64)",
+            "value": 4.097,
+            "unit": "s",
+            "range": "+- 0.058",
+            "extra": "OS: Ubuntu 24.04.3 LTS\nCPU: AMD EPYC 7763 64-Core Processor, 2 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (tform -w2/Linux-X64)",
+            "value": 2.161,
+            "unit": "s",
+            "range": "+- 0.013",
+            "extra": "OS: Ubuntu 24.04.3 LTS\nCPU: AMD EPYC 7763 64-Core Processor, 2 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (tform -w4/Linux-X64)",
+            "value": 1.93,
+            "unit": "s",
+            "range": "+- 0.034",
+            "extra": "OS: Ubuntu 24.04.3 LTS\nCPU: AMD EPYC 7763 64-Core Processor, 2 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          }
+        ]
+      },
       {
         "commit": {
           "author": {
