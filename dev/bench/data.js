@@ -1,8 +1,72 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1756939497013,
+  "lastUpdate": 1756939509088,
   "repoUrl": "https://github.com/tueda/form-bench-results-wip1",
   "entries": {
     "FORM Benchmark": [
+      {
+        "commit": {
+          "author": {
+            "name": "Ben Ruijl\n",
+            "email": "benruyl@gmail.com\n",
+            "username": "Ben Ruijl\n"
+          },
+          "committer": {
+            "name": "Ben Ruijl\n",
+            "email": "benruyl@gmail.com\n",
+            "username": "Ben Ruijl\n"
+          },
+          "id": "77ee4eab218ff75bbc2f8e52a2d53efd06159fdf\n",
+          "message": "Fixed issue #272\n\nFixed two issues that were caused by considering the coefficient\nas a variable in two separate places:\n\n- During term sorting\n- During the collection of all variables\n\n",
+          "timestamp": "2018-04-03T17:14:49+02:00\n",
+          "url": "https://github.com/form-dev/form/commit/77ee4eab218ff75bbc2f8e52a2d53efd06159fdf\n"
+        },
+        "date": 1756939508214,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "trace (form/Linux-ARM64)",
+            "value": 2.996,
+            "unit": "s",
+            "range": "+- 0.006",
+            "extra": "OS: Ubuntu 24.04.2 LTS\nCPU: Neoverse-N2, 4 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (tform -w2/Linux-ARM64)",
+            "value": 1.59,
+            "unit": "s",
+            "range": "+- 0.004",
+            "extra": "OS: Ubuntu 24.04.2 LTS\nCPU: Neoverse-N2, 4 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (tform -w4/Linux-ARM64)",
+            "value": 0.863,
+            "unit": "s",
+            "range": "+- 0.002",
+            "extra": "OS: Ubuntu 24.04.2 LTS\nCPU: Neoverse-N2, 4 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (form/Linux-X64)",
+            "value": 4.077,
+            "unit": "s",
+            "range": "+- 0.074",
+            "extra": "OS: Ubuntu 24.04.3 LTS\nCPU: AMD EPYC 7763 64-Core Processor, 2 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (tform -w2/Linux-X64)",
+            "value": 2.2,
+            "unit": "s",
+            "range": "+- 0.031",
+            "extra": "OS: Ubuntu 24.04.3 LTS\nCPU: AMD EPYC 7763 64-Core Processor, 2 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (tform -w4/Linux-X64)",
+            "value": 1.944,
+            "unit": "s",
+            "range": "+- 0.029",
+            "extra": "OS: Ubuntu 24.04.3 LTS\nCPU: AMD EPYC 7763 64-Core Processor, 2 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          }
+        ]
+      },
       {
         "commit": {
           "author": {
