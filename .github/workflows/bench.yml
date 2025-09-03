@@ -1,0 +1,258 @@
+name: Benchmark
+
+on:
+  push:
+  schedule:
+    - cron: 0 1 * * *  # daily
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: "Commit SHA of form-dev/form to benchmark"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+env:
+  GIT_AUTHOR_NAME: github-actions[bot]
+  GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+  GIT_COMMITTER_NAME: github-actions[bot]
+  GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    outputs:
+      sha: ${{ steps.target.outputs.sha }}
+      need_bench: ${{ steps.probe.outputs.need_bench  }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Checkout FORM repository
+        uses: actions/checkout@v5
+        with:
+          repository: form-dev/form
+          path: form
+          fetch-depth: 0
+
+      - name: Find the target commit
+        id: target
+        shell: bash
+        run: |
+          if [[ -n "${{ github.event.inputs.sha }}" ]]; then
+            sha="${{ github.event.inputs.sha }}"
+          else
+            sha=$(git -C form rev-parse HEAD)
+          fi
+          sha=$(git -C form log -1 --format=%H $sha)
+          echo "sha=$sha" >>"$GITHUB_OUTPUT"
+
+      - name: Probe gh-pages branch
+        id: probe
+        shell: bash
+        run: |
+          if git ls-remote --exit-code origin gh-pages >/dev/null 2>&1; then
+            need=true
+            if [[ "${{ github.event_name }}" == "schedule" ]]; then
+              # Check if we already have benchmarks for the target commit.
+              git fetch --depth=1 origin gh-pages
+              git worktree add gh-pages gh-pages
+              pushd gh-pages
+              sed '1s/^window\.BENCHMARK_DATA = {/{/' dev/bench/data.js >tmp1.json
+              if jq -e --arg sha "${{ steps.target.outputs.sha }}" \
+                  '.entries["FORM Benchmark"][] | select(.commit.id | startswith($sha)) | length > 0' \
+                  tmp1.json >/dev/null; then
+                rm tmp1.json
+                need=false
+              fi
+              popd
+              git worktree remove gh-pages --force
+            fi
+          else
+            # Create gh-pages branch.
+            git worktree add --orphan gh-pages
+            pushd gh-pages
+            touch .nojekyll
+            git add .
+            git commit -m "Initialize gh-pages"
+            git push origin gh-pages || :
+            popd
+            git worktree remove gh-pages --force
+            need=true
+          fi
+          echo "need_bench=$need" >>"$GITHUB_OUTPUT"
+
+  bench:
+    runs-on: ${{ matrix.os }}
+    needs: check
+    if: needs.check.outputs.need_bench == 'true'
+    defaults:
+      run:
+        shell: ${{ startsWith(matrix.os, 'windows') && 'msys2 {0}' || 'bash' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-24.04
+          - ubuntu-24.04-arm
+          # - macos-13
+          # - macos-15
+          # - windows-2022
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Checkout FORM repository
+        uses: actions/checkout@v5
+        with:
+          repository: form-dev/form
+          ref: ${{ needs.check.outputs.sha }}
+          path: form
+          fetch-depth: 0
+
+      - name: Set up build
+        uses: tueda/form/.github/actions/setup-build@ci-setup-build-action
+        with:
+          features: form tform hyperfine noconfigure automake git ${{ startsWith(matrix.os, 'windows') && 'msys2' || '' }}
+
+      - name: Configure
+        working-directory: form
+        run: |
+          autoreconf -i
+          ./configure --disable-dependency-tracking --enable-scalar --enable-threaded ${{ startsWith(matrix.os, 'windows') && '--with-api=windows' || '' }}
+
+      - name: Build
+        working-directory: form
+        run: make -j 4
+
+      - name: Get system info
+        run: |
+          pip install -r scripts/requirements.txt
+          python scripts/print-system-info.py >system_info.txt
+
+      - name: Test
+        run: cat system_info.txt
+
+      - name: Run trace (form)
+        run: >-
+          hyperfine
+          --warmup 3 --runs 10
+          --export-json trace_form.json
+          --command-name "trace (form/$RUNNER_OS-$RUNNER_ARCH)"
+          './form/sources/form form/check/formunit/fu.frm'
+
+      - name: Run trace (tform -w2)
+        run: >-
+          hyperfine
+          --warmup 3 --runs 10
+          --export-json trace_tform_w2.json
+          --command-name "trace (tform -w2/$RUNNER_OS-$RUNNER_ARCH)"
+          './form/sources/tform -w2 form/check/formunit/fu.frm'
+
+      - name: Run trace (tform -w4)
+        run: >-
+          hyperfine
+          --warmup 3 --runs 10
+          --export-json trace_tform_w4.json
+          --command-name "trace (tform -w4/$RUNNER_OS-$RUNNER_ARCH)"
+          './form/sources/tform -w4 form/check/formunit/fu.frm'
+
+      - name: Postprocess the JSON files
+        run: |
+          for f in *.json; do
+            jq --arg sys "$(cat system_info.txt)" '
+              .results |= map(. + {extra: $sys})
+            ' "$f" >"$f.tmp.json"
+            mv "$f.tmp.json" "$f"
+            jq '
+              .results |= map(
+                .mean    |= (. * 1000 | round / 1000) |
+                .stddev  |= (. * 1000 | round / 1000) |
+                .median  |= (. * 1000 | round / 1000) |
+                .user    |= (. * 1000 | round / 1000) |
+                .system  |= (. * 1000 | round / 1000) |
+                .min     |= (. * 1000 | round / 1000) |
+                .max     |= (. * 1000 | round / 1000)
+              )
+            ' "$f" >"$f.tmp.json"
+            mv "$f.tmp.json" "$f"
+          done
+
+      - name: Save the results as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}
+          path: ./*.json
+          if-no-files-found: error
+
+  finish:
+    runs-on: ubuntu-24.04
+    needs: [check, bench]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Test
+        run: head -9999 artifacts/*/*.json
+
+      - name: Convert the JSON format
+        run: >-
+          jq -n '
+            [inputs.results[0] | {name: .command, unit: "s", value: .mean, range: "+- \(.stddev)", extra: .extra}]
+          ' artifacts/*/*.json >bench_custom.json
+
+      - name: Test
+        run: cat bench_custom.json
+
+      - name: Publish the benchmark results
+        uses: tueda/github-action-benchmark@v1
+        with:
+          name: FORM Benchmark
+          tool: customSmallerIsBetter
+          output-file-path: bench_custom.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ needs.check.outputs.sha }}
+          ref-repository: https://github.com/form-dev/form
+
+      - name: Test
+        run: git log --oneline -5
+
+      - name: Test
+        run: git status
+
+      - name: Test
+        run: git diff --staged --stat -p
+
+      - name: Test
+        run: git diff --stat -p
+
+      - name: Manipulate the JSON file
+        run: |
+          git switch gh-pages
+          sed '1s/^window\.BENCHMARK_DATA = {/{/' dev/bench/data.js >tmp1.json
+          # Remove duplicates.
+          jq '
+            .entries["FORM Benchmark"] |= (
+              to_entries | reduce .[] as $e ({};
+                .[$e.value.commit.id | gsub("[[:space:]]+$"; "")] = $e
+              ) | [.[]] | sort_by(.key) | map(.value)
+            )
+          ' tmp1.json >tmp2.json
+          # Sort by timestamp.
+          jq '
+            .entries["FORM Benchmark"] |= (
+              sort_by(.commit.timestamp)
+            )
+          ' tmp2.json >tmp3.json
+          sed '1s/^{/window.BENCHMARK_DATA = {/' tmp3.json >dev/bench/data.js
+          git add -u
+          git commit --amend --no-edit
+          git pull origin gh-pages --rebase
+          git push origin gh-pages
