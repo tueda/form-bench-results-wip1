@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1756916868790,
+  "lastUpdate": 1756916918148,
   "repoUrl": "https://github.com/tueda/form-bench-results-wip1",
   "entries": {
     "FORM Benchmark": [
@@ -191,6 +191,70 @@ window.BENCHMARK_DATA = {
             "value": 2.317,
             "unit": "s",
             "range": "+- 0.022",
+            "extra": "OS: Ubuntu 24.04.3 LTS\nCPU: AMD EPYC 7763 64-Core Processor, 2 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Vitaly Magerya\n",
+            "email": "magv@tx97.net\n",
+            "username": "Vitaly Magerya\n"
+          },
+          "committer": {
+            "name": "jodavies\n",
+            "email": "jodavies@users.noreply.github.com\n",
+            "username": "jodavies\n"
+          },
+          "id": "8f0bcb66ad8d1f817e103b8d46859250048c50a6\n",
+          "message": "Convert explicitly inside declare.h functions\n\nThis helps to reduce diagnostics reported by -Wconversion.\n\n",
+          "timestamp": "2025-08-07T10:14:03+01:00\n",
+          "url": "https://github.com/form-dev/form/commit/8f0bcb66ad8d1f817e103b8d46859250048c50a6\n"
+        },
+        "date": 1756916917827,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "trace (form/Linux-ARM64)",
+            "value": 3.123,
+            "unit": "s",
+            "range": "+- 0.031",
+            "extra": "OS: Ubuntu 24.04.2 LTS\nCPU: Neoverse-N2, 4 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (tform -w2/Linux-ARM64)",
+            "value": 1.683,
+            "unit": "s",
+            "range": "+- 0.013",
+            "extra": "OS: Ubuntu 24.04.2 LTS\nCPU: Neoverse-N2, 4 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (tform -w4/Linux-ARM64)",
+            "value": 0.917,
+            "unit": "s",
+            "range": "+- 0.008",
+            "extra": "OS: Ubuntu 24.04.2 LTS\nCPU: Neoverse-N2, 4 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (form/Linux-X64)",
+            "value": 4.023,
+            "unit": "s",
+            "range": "+- 0.083",
+            "extra": "OS: Ubuntu 24.04.3 LTS\nCPU: AMD EPYC 7763 64-Core Processor, 2 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (tform -w2/Linux-X64)",
+            "value": 2.35,
+            "unit": "s",
+            "range": "+- 0.031",
+            "extra": "OS: Ubuntu 24.04.3 LTS\nCPU: AMD EPYC 7763 64-Core Processor, 2 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
+          },
+          {
+            "name": "trace (tform -w4/Linux-X64)",
+            "value": 2.256,
+            "unit": "s",
+            "range": "+- 0.021",
             "extra": "OS: Ubuntu 24.04.3 LTS\nCPU: AMD EPYC 7763 64-Core Processor, 2 cores (4 threads)\nMemory: 15.6GiB\ngcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\nflint 3.3.1, gmp 6.3.0, mpfr 4.2.1, zlib 1.3, zstd 1.5.5"
           }
         ]
